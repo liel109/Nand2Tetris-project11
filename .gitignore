@@ -3,3 +3,6 @@
 *.vm
 *.txt
 Test*
+*.jack
+*.class
+*.zip

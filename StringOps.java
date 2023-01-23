@@ -1,8 +1,8 @@
 public abstract class StringOps {
-    
-    public static String repeat(String s, int num){
+
+    public static String repeat(String s, int num) {
         StringBuilder result = new StringBuilder();
-        for(int i=0; i < num; i++){
+        for (int i = 0; i < num; i++) {
             result.append(s);
         }
         return result.toString();
@@ -62,12 +62,17 @@ public abstract class StringOps {
         return result.toString();
     }
 
-    public static boolean isNum(String s){
-        try{
+    /**
+     * Determines if a given string can be parsed as an integer.
+     *
+     * @param s the string to be checked.
+     * @return true if the string can be parsed as an integer, false otherwise.
+     */
+    public static boolean isNum(String s) {
+        try {
             Integer.parseInt(s);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

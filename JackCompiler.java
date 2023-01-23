@@ -1,6 +1,6 @@
 import java.io.File;
 
-public class JackAnalyzer {
+public class JackCompiler {
     public static void main(String[] args) {
         try {
             TypesMap.init();
