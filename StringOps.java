@@ -1,5 +1,16 @@
+/**
+ * Class StringOps -
+ * A class consisting operations on Strings.
+ */
 public abstract class StringOps {
 
+    /**
+     * Returns a String with its leading and trailing white spaces removed.
+     * 
+     * @param String s The string to repeat
+     * @param num    The number of times to repeat the string
+     * @return A string with num times the string s
+     */
     public static String repeat(String s, int num) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < num; i++) {

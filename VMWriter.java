@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Class VMWriter -
+ * Write translated VM commands from jack to an output file
+ */
 public class VMWriter {
 
     BufferedWriter writer;
@@ -118,5 +122,4 @@ public class VMWriter {
     public void close() throws IOException {
         writer.close();
     }
-
 }

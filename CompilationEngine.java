@@ -10,6 +10,14 @@ public class CompilationEngine {
     boolean isVarUsed, isVoid;
     int labelCount;
 
+    /**
+     * Constructs a new compilation engine that will compile the given source file
+     * to the given output file
+     * 
+     * @param input  the file to tokenize
+     * @param output the file to write the output to
+     * @throws IOException if an error occurs while creating the BufferedReader
+     */
     public CompilationEngine(File input, File output) throws IOException {
         this.vmWriter = new VMWriter(output);
         this.tokenizer = new JackTokenizer(input);
@@ -21,6 +29,11 @@ public class CompilationEngine {
         this.labelCount = 0;
     }
 
+    /**
+     * Compiles a complete class
+     * 
+     * @throws IOException
+     */
     public void compileClass() throws IOException {
 
         // write 'class'
@@ -52,6 +65,11 @@ public class CompilationEngine {
         // skip '}'
     }
 
+    /**
+     * compile the class variable declaration (field|static)
+     * 
+     * @throws IOException
+     */
     public void compileClassVarDec() throws IOException {
         String name, type, kind;
 
@@ -85,6 +103,11 @@ public class CompilationEngine {
 
     }
 
+    /**
+     * compile the subroutine declaration (constructor|function|method)
+     * 
+     * @throws IOException
+     */
     public void compileSubroutine() throws IOException {
         subroutineTable.reset();
         isVarUsed = false;
@@ -125,6 +148,11 @@ public class CompilationEngine {
 
     }
 
+    /**
+     * compile list of parameters
+     * 
+     * @throws IOException
+     */
     public void compileParameterList() throws IOException {
 
         // check if parmeter exists
@@ -159,6 +187,11 @@ public class CompilationEngine {
         }
     }
 
+    /**
+     * compile a subroutine body
+     * 
+     * @throws IOException
+     */
     public void compileSubroutineBody() throws IOException {
 
         // skip '{'
@@ -179,6 +212,11 @@ public class CompilationEngine {
 
     }
 
+    /**
+     * compile the variable declaration of a subroutine
+     * 
+     * @throws IOException
+     */
     public void compileVarDec() throws IOException {
         String name, type, kind = "VAR";
 
@@ -210,6 +248,11 @@ public class CompilationEngine {
 
     }
 
+    /**
+     * compile a statement (let|if|while|do|return)
+     * 
+     * @throws IOException
+     */
     public void compileStatements() throws IOException {
 
         while (tokenizer.tokenType() == Type.KEYWORD && TypesMap.isStatement(tokenizer.keyword())) {
@@ -234,6 +277,11 @@ public class CompilationEngine {
 
     }
 
+    /**
+     * compile a let statement
+     * 
+     * @throws IOException
+     */
     public void compileLet() throws IOException {
         String segment = "";
         int index = 0;
@@ -294,6 +342,11 @@ public class CompilationEngine {
         }
     }
 
+    /**
+     * compile an if statement
+     * 
+     * @throws IOException
+     */
     public void compileIf() throws IOException {
         // store the current label count and advance it by 2 (for the case of else
         // statment)
@@ -348,6 +401,11 @@ public class CompilationEngine {
         vmWriter.writeLabel("L" + currentLabel);
     }
 
+    /**
+     * compile a while statement
+     * 
+     * @throws IOException
+     */
     public void compileWhile() throws IOException {
         // store current label count and advance it by 2
         int currentLabel = labelCount;
@@ -392,6 +450,11 @@ public class CompilationEngine {
         tokenizer.advance();
     }
 
+    /**
+     * compile a do statement
+     * 
+     * @throws IOException
+     */
     public void compileDo() throws IOException {
         String name = "";
         // skip do
@@ -416,6 +479,11 @@ public class CompilationEngine {
 
     }
 
+    /**
+     * compile a return statement
+     * 
+     * @throws IOException
+     */
     public void compileReturn() throws IOException {
 
         // skip return
@@ -438,6 +506,11 @@ public class CompilationEngine {
 
     }
 
+    /**
+     * compile an expression
+     * 
+     * @throws IOException
+     */
     public void compileExpression() throws IOException {
         char op = 0;
 
@@ -485,6 +558,11 @@ public class CompilationEngine {
         }
     }
 
+    /**
+     * compile a term
+     * 
+     * @throws IOException
+     */
     public void compileTerm() throws IOException {
         String segment = "";
         int index = 0;
@@ -603,9 +681,14 @@ public class CompilationEngine {
                 }
             }
         }
-
     }
 
+    /**
+     * compile a subroutine call
+     * 
+     * @param name the name of the object
+     * @throws IOException
+     */
     private void compileSubroutineCall(String name) throws IOException {
 
         String funcCall = "";
@@ -656,6 +739,12 @@ public class CompilationEngine {
         vmWriter.writeCall(funcCall, varCount);
     }
 
+    /**
+     * compile a list of expressions
+     * 
+     * @return the number of expressions
+     * @throws IOException
+     */
     public int compileExpressionList() throws IOException {
         int counter = 0;
 
@@ -676,6 +765,12 @@ public class CompilationEngine {
         return counter;
     }
 
+    /**
+     * reuturn the segment of the class object
+     * 
+     * @param name the name of the object
+     * @return this if it's a class field and static otherwise
+     */
     private String getClassVarSegment(String name) {
         if (classTable.kindOf(name) == "FIELD") {
             return "this";
@@ -683,6 +778,12 @@ public class CompilationEngine {
         return "static";
     }
 
+    /**
+     * reuturn the segment of the sabroutine object
+     * 
+     * @param name the name of the object
+     * @return argument if it's a class field and local otherwise
+     */
     private String getSubroutineVarSegment(String name) {
         if (subroutineTable.kindOf(name) == "ARG") {
             return "argument";
@@ -690,55 +791,14 @@ public class CompilationEngine {
         return "local";
     }
 
+    /**
+     * close the compilation engine
+     * 
+     * @throws IOException
+     */
     public void close() throws IOException {
         vmWriter.close();
         tokenizer.close();
     }
 
-    /*
-     * public void writeNextToken() throws IOException{
-     * String type;
-     * switch (tokenizer.tokenType()){
-     * case KEYWORD:
-     * type = "keyword";
-     * writer.write( StringOps.repeat("    ", tabCounter) + "<" + type + "> " +
-     * tokenizer.keyword() + " </" + type + ">\n");
-     * break;
-     * case SYMBOL:
-     * type = "symbol";
-     * String content = tokenizer.symbol() + "";
-     * if(TypesMap.containsXmlOp(tokenizer.symbol())){
-     * content = TypesMap.getXmlOp(tokenizer.symbol());
-     * }
-     * writer.write(StringOps.repeat("    ", tabCounter) + "<" + type + "> " +
-     * content + " </" + type + ">\n");
-     * break;
-     * case IDENTIFIER:
-     * type = "identifier";
-     * String name = tokenizer.identifier();
-     * if(subroutineTable.contains(name)){
-     * type += " subroutine " + subroutineTable.kindOf(name) + " " +
-     * subroutineTable.indexOf(name);
-     * type += (isVarUsed) ? " Used" : " Defined";
-     * }
-     * else if(classTable.contains(name)) {
-     * type += " class " + classTable.kindOf(name) + " " + classTable.indexOf(name);
-     * type += (isVarUsed) ? " Used" : " Defined";
-     * }
-     * writer.write(StringOps.repeat("    ", tabCounter) + "<" + type + "> " +
-     * tokenizer.identifier() + " </" + type + ">\n");
-     * break;
-     * case INT_CONST:
-     * type = "integerConstant";
-     * writer.write(StringOps.repeat("    ", tabCounter) + "<" + type + "> " +
-     * tokenizer.intVal() + " </" + type + ">\n");
-     * break;
-     * case STRING_CONST:
-     * type = "stringConstant";
-     * writer.write(StringOps.repeat("    ", tabCounter) + "<" + type + "> " +
-     * tokenizer.stringVal() + " </" + type + ">\n");
-     * break;
-     * }
-     * }
-     */
 }

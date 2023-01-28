@@ -1,3 +1,6 @@
+/**
+ * enum that represent the type of a token
+ */
 public enum Type {
     KEYWORD,
     SYMBOL,

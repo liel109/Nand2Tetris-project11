@@ -34,6 +34,10 @@ public class SymbolTable {
         }
     }
 
+    /**
+     * Constructor a new SymbolTable
+     * 
+     */
     public SymbolTable() {
         this.symbols = new HashMap<String, SymbolEntry>();
         this.fieldCount = 0;
@@ -42,11 +46,26 @@ public class SymbolTable {
         this.localCount = 0;
     }
 
+    /**
+     * puts new object in to the SymbolTable.
+     * the object consist of key:name, value:SymbolEntry
+     * 
+     * @param name
+     * @param type
+     * @param kind
+     */
     public void define(String name, String type, String kind) {
         SymbolEntry entry = new SymbolEntry(type, kind, varCount(kind));
         symbols.put(name, entry);
     }
 
+    /**
+     * returns the number of variables of the given kind already defined
+     * in the Symboltable and increamenting the number
+     * 
+     * @param kind the kind of variable (STATIC, FIELD, ARG, LOCAL)
+     * @return the number of variables of the given kind already defined
+     */
     public int varCount(String kind) {
         switch (kind) {
             case "STATIC":
@@ -60,22 +79,49 @@ public class SymbolTable {
         }
     }
 
+    /**
+     * returns the kind of the named identifier in the Symboltable
+     * 
+     * @param name the name of the object
+     * @return the kind of the object if it is defined, NONE otherwise
+     */
     public String kindOf(String name) {
         return (symbols.containsKey(name)) ? symbols.get(name).kind : "NONE";
     }
 
+    /**
+     * returns the type of the named identifier in the Symboltable
+     * 
+     * @param name the name of the object
+     * @return the type of the object
+     */
     public String typeOf(String name) {
         return symbols.get(name).type;
     }
 
+    /**
+     * returns the index assigned to the named identifier
+     * 
+     * @param name the name of the object
+     * @return the index of the object
+     */
     public int indexOf(String name) {
         return symbols.get(name).index;
     }
 
+    /**
+     * returns true if the named identifier is in the Symboltable
+     * 
+     * @param name the name of the object
+     * @return true if the object is in the Symboltable, false otherwise
+     */
     public boolean contains(String name) {
         return symbols.containsKey(name);
     }
 
+    /**
+     * resets the Symboltable
+     */
     public void reset() {
         symbols.clear();
         fieldCount = 0;
