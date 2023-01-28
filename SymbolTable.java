@@ -1,6 +1,10 @@
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * hash map that saves the fields and variables of a class or function.
+ * 
+ */
 public class SymbolTable {
 
     Map<String, SymbolEntry> symbols;

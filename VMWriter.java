@@ -4,8 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Class VMWriter -
- * Write translated VM commands from jack to an output file
+ * Writes a VM commands to the output file
+ * 
  */
 public class VMWriter {
 

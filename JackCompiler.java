@@ -1,5 +1,10 @@
 import java.io.File;
 
+/**
+ * Given a jack file or directory with jack files, compiles it to vm file or
+ * directory of vm files
+ *
+ */
 public class JackCompiler {
     public static void main(String[] args) {
         try {

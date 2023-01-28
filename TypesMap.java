@@ -3,6 +3,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A class that holds all the types, operations and statements used in the Jack
+ * language.
+ * 
+ */
 public class TypesMap {
     public static Map<String, String> types = new HashMap<String, String>();
     public static Map<String, String> xmlOps = new HashMap<String, String>();

@@ -1,6 +1,6 @@
 /**
- * Class StringOps -
  * A class consisting operations on Strings.
+ * 
  */
 public abstract class StringOps {
 

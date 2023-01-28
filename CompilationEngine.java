@@ -1,6 +1,11 @@
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Compiles a complete class (from Jack to VM)
+ * 
+ * @throws IOException
+ */
 public class CompilationEngine {
 
     JackTokenizer tokenizer;
